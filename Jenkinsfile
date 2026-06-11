@@ -40,8 +40,8 @@ pipeline {
             steps {
                 sh '''
                 cd /home/ubuntu/project/django-notes-app
-                docker-compose pull
-                docker-compose up -d
+                docker compose pull || docker-compose pull
+                docker compose up -d || docker-compose up -d
                 '''
             }
         }
