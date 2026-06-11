@@ -5,13 +5,26 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 
-    stages {
+   stages {
 
-        stage('Build Django Image') {
-            steps {
-                sh 'docker build -t adityaisnomore/django_app:latest .'
-            }
+    stage('Debug Docker') {
+        steps {
+            sh '''
+            whoami
+            which docker
+            docker --version
+            docker ps
+            '''
         }
+    }
+
+    stage('Build Django Image') {
+        steps {
+            sh 'docker build -t adityaisnomore/django_app:latest .'
+        }
+    }
+
+}
 
         stage('Build Nginx Image') {
             steps {
