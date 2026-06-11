@@ -1,8 +1,7 @@
 pipeline {
-
-```
 agent any
 
+```
 environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
 }
@@ -12,19 +11,19 @@ stages {
     stage('Clone') {
         steps {
             git branch: 'main',
-            url: 'https://github.com/adiityaa3/django-notes-app.git'
+                url: 'https://github.com/adiityaa3/django-notes-app.git'
         }
     }
 
     stage('Build Django Image') {
         steps {
-            sh 'docker build -t adityaisnomore/django-notes-app:latest .'
+            sh 'docker build -t adityaisnomore/django_app:latest .'
         }
     }
 
     stage('Build Nginx Image') {
         steps {
-            sh 'docker build -t adityaisnomore/notes-nginx:latest ./nginx'
+            sh 'docker build -t adityaisnomore/nginx:latest ./nginx'
         }
     }
 
@@ -39,8 +38,8 @@ stages {
     stage('Push Images') {
         steps {
             sh '''
-            docker push adityaisnomore/django-notes-app:latest
-            docker push adityaisnomore/notes-nginx:latest
+            docker push adityaisnomore/django_app:latest
+            docker push adityaisnomore/nginx:latest
             '''
         }
     }
@@ -48,7 +47,6 @@ stages {
     stage('Deploy') {
         steps {
             sh '''
-            docker-compose down
             docker-compose pull
             docker-compose up -d
             '''
