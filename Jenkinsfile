@@ -8,33 +8,36 @@ pipeline {
     stages {
 
         stage('Debug Docker') {
-            steps {
-                sh '''
-                whoami
-                which docker
-                docker --version
-                docker ps
-                '''
-            }
-        }
+    steps {
+        sh '''
+        whoami
+        echo $PATH
+        type docker
+        which docker
+        ls -l $(which docker)
+        /usr/bin/docker --version
+        docker --version
+        '''
+    }
+}
 
         stage('Build Django Image') {
             steps {
-                sh 'docker build -t adityaisnomore/django_app:latest .'
+                sh '/usr/bin/docker build -t adityaisnomore/django_app:latest .'
             }
         }
 
         stage('Build Nginx Image') {
             steps {
-                sh 'docker build -t adityaisnomore/nginx:latest ./nginx'
+                sh '/usr/bin/docker build -t adityaisnomore/nginx:latest ./nginx'
             }
         }
 
         stage('Docker Login') {
             steps {
                 sh '''
-                echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                '''
+        echo $DOCKERHUB_CREDENTIALS_PSW | /usr/bin/docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+        '''
             }
         }
 
