@@ -5,26 +5,24 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
 
-   stages {
+    stages {
 
-    stage('Debug Docker') {
-        steps {
-            sh '''
-            whoami
-            which docker
-            docker --version
-            docker ps
-            '''
+        stage('Debug Docker') {
+            steps {
+                sh '''
+                whoami
+                which docker
+                docker --version
+                docker ps
+                '''
+            }
         }
-    }
 
-    stage('Build Django Image') {
-        steps {
-            sh 'docker build -t adityaisnomore/django_app:latest .'
+        stage('Build Django Image') {
+            steps {
+                sh 'docker build -t adityaisnomore/django_app:latest .'
+            }
         }
-    }
-
-}
 
         stage('Build Nginx Image') {
             steps {
@@ -53,8 +51,8 @@ pipeline {
             steps {
                 sh '''
                 cd /home/ubuntu/project/django-notes-app
-                docker compose pull || docker-compose pull
-                docker compose up -d || docker-compose up -d
+                docker-compose pull
+                docker-compose up -d
                 '''
             }
         }
